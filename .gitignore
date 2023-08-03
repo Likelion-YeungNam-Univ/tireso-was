@@ -38,3 +38,4 @@ out/
 
 ### Custom ###
 application.yml
+application-secret.yml
