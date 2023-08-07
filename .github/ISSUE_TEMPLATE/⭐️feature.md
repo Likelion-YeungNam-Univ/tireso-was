@@ -1,18 +1,20 @@
 ---
 name: "⭐️FEATURE"
 about: Feature 작업 사항을 입력해주세요!
-title: ''
+title: '스프린트 백로그 단위 (ex: 회원가입 API 구현)'
 labels: ''
 assignees: ''
 
 ---
 
-# Description
-설명을 작성하세요.
+## Product Backlog
 
-# ToDo
-- [ ] 할 일1
-- [ ] 할 일2
+<!-- product backlog 내용 / ex) 사용자는 회원가입을 한다. -->
 
-# ETC
-기타사항
+## Feature
+
+<!-- ex) XxxDTO 구현, XxxService - XxxMethod 구현, XxxController - XxxAPI 구현 -->
+
+- [ ] 
+
+<!-- 담당자가 직접 이슈 작성할 것! -->
