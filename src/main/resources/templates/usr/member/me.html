@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h1>User Profile</h1>
+<span class="badge badge-primary" th:text="${@rq.member.username}"></span>
+<br>
+<form th:action="@{/usr/member/logout}" method="post">
+    <button type="submit">로그아웃</button>
+</form>
+</body>
+</html>
