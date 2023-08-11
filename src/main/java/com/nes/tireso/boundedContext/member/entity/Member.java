@@ -25,9 +25,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @ToString(callSuper = true)
 public class Member extends BaseEntity {
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	private Long id;
 	private String providerTypeCode;
 	@Column(unique = true)
 	private String username;
