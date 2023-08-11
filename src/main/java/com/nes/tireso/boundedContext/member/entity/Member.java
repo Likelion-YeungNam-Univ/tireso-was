@@ -32,6 +32,10 @@ public class Member extends BaseEntity {
 	@Column(unique = true)
 	private String username;
 	private String password;
+	private String carType;
+	private String type;
+	private String width;
+	private String ratio;
 
 	public List<? extends GrantedAuthority> getGrantedAuthorities() {
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
