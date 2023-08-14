@@ -15,11 +15,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/oauth2")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "OAuth", description = "OAuth를 통한 사용자 인증 관련 API")
-public class OAuth2Controller {
-	@GetMapping("/authorization/naver")
+@Tag(name = "Auth", description = "OAuth를 통한 사용자 인증 관련 API")
+public class AuthController {
+	@GetMapping("/login/naver")
 	@Operation(summary = "네이버 로그인 API", description = "네이버 로그인 페이지로 redirect 됩니다.")
 	public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {}
 
