@@ -12,11 +12,13 @@ import com.nes.tireso.boundedContext.tire.entity.Tire;
 import com.nes.tireso.boundedContext.tire.service.TireService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/tire")
 @RequiredArgsConstructor
+@Tag(name = "Tire", description = "Tire 조회 및 검색 관련 API")
 public class TireController {
 	private final TireService tireService;
 
