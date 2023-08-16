@@ -25,7 +25,6 @@ public class MemberController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/me")
 	public String showMe(Model model) {
-
 		return "usr/member/me";
 	}
 }
