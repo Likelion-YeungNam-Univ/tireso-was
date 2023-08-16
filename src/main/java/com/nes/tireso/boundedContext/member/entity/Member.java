@@ -10,6 +10,7 @@ import com.nes.tireso.base.baseEntity.BaseEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -24,6 +25,7 @@ public class Member extends BaseEntity {
 	private String providerTypeCode;
 	@Column(unique = true)
 	private String username;
+	private String name;
 	private String password;
 	private String carType;
 	private String type;
@@ -44,5 +46,18 @@ public class Member extends BaseEntity {
 
 	public boolean isAdmin() {
 		return "admin".equals(username);
+	}
+
+	@Builder
+	public Member(String providerTypeCode, String username, String name, String password, String carType, String type,
+			String width, String ratio) {
+		this.providerTypeCode = providerTypeCode;
+		this.username = username;
+		this.name = name;
+		this.password = password;
+		this.carType = carType;
+		this.type = type;
+		this.width = width;
+		this.ratio = ratio;
 	}
 }
