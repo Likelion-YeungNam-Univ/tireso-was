@@ -30,4 +30,6 @@ public class Tire extends BaseEntity {
 	private String ratio;
 	private String diameter;
 	private Float rate;
+	private int price;
+	private String tag;
 }
