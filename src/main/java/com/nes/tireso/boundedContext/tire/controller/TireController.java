@@ -25,7 +25,7 @@ public class TireController {
 
 	@GetMapping
 	@Operation(summary = "타이어 목록 전체 조회 API", description = "타이어 전체 목록을 배열 형태로 반환합니다.")
-	public ResponseEntity<List<Tire>> list(@RequestParam int sort) {
+	public ResponseEntity<List<Tire>> list(@RequestParam(defaultValue = "0") int sort) {
 		// 정렬: 등록순, 인기순, 낮은가격순, 높은가격순
 		return new ResponseEntity<>(tireService.list(sort), HttpStatus.OK);
 	}
