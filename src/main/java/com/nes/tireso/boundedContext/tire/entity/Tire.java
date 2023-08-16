@@ -23,7 +23,9 @@ public class Tire extends BaseEntity {
 	private Brand brand;
 	private String name;
 	private String description;
-	private String imageUrl;
+	private String imageUrl1;
+	private String imageUrl2;
+	private String imageUrl3;
 	private String carType;
 	private String season;
 	private String type;
@@ -31,4 +33,7 @@ public class Tire extends BaseEntity {
 	private String ratio;
 	private String diameter;
 	private Float rate;
+	private int price;
+	private String tag;
+	private int review_cnt;
 }
