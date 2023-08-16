@@ -1,4 +1,4 @@
-package com.nes.tireso.boundedContext.member.service.repository;
+package com.nes.tireso.boundedContext.tire.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
