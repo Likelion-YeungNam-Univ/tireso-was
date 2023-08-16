@@ -32,4 +32,5 @@ public class Tire extends BaseEntity {
 	private Float rate;
 	private int price;
 	private String tag;
+	private int review_cnt;
 }
