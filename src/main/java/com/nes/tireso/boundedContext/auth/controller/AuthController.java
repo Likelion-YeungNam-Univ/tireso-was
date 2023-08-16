@@ -23,12 +23,12 @@ public class AuthController {
 	}
 
 	@GetMapping("/authorization/kakao")
-	@Operation(summary = "네이버 로그인 API", description = "카카오 로그인 페이지로 redirect 됩니다.")
+	@Operation(summary = "카카오 로그인 API", description = "카카오 로그인 페이지로 redirect 됩니다.")
 	public void kakaoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	}
 
 	@GetMapping("/authorization/google")
-	@Operation(summary = "네이버 로그인 API", description = "구글 로그인 페이지로 redirect 됩니다.")
+	@Operation(summary = "구글 로그인 API", description = "구글 로그인 페이지로 redirect 됩니다.")
 	public void googleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	}
 }
