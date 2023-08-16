@@ -54,13 +54,18 @@ public class Member extends BaseEntity {
     ) {
         this.nickname = nickname;
         this.email = email;
-        this.profileImageUrl = profileImageUrl;
         this.role = role;
         this.authProvider = authProvider;
         this.carType = carType;
         this.type = type;
         this.width = width;
         this.ratio = ratio;
+
+        if (profileImageUrl == null || profileImageUrl.isEmpty()) {
+            this.profileImageUrl = "https://kr.object.ncloudstorage.com/tireso/member/default_profile.png";
+        } else {
+            this.profileImageUrl = profileImageUrl;
+        }
     }
 
     public Member update(String name, String picture) {
