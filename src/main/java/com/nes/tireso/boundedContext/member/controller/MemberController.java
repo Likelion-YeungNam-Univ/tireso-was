@@ -1,31 +1,20 @@
 package com.nes.tireso.boundedContext.member.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import com.nes.tireso.boundedContext.auth.dto.SignUpRequest;
 import com.nes.tireso.boundedContext.member.service.MemberService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/usr/member")
+@RestController
 @RequiredArgsConstructor
 public class MemberController {
-	private final MemberService memberService;
+    private final MemberService memberService;
 
-	@PreAuthorize("isAnonymous()")
-	@GetMapping("/login")
-	public String showLogin() {
-		return "usr/member/login";
-	}
-
-	@PreAuthorize("isAuthenticated()")
-	@GetMapping("/me")
-	public String showMe(Model model) {
-
-		return "usr/member/me";
-	}
+    @PostMapping("/user")
+    public ResponseEntity<String> createUser(@RequestBody SignUpRequest signUpRequest) {
+        return ResponseEntity.ok(memberService.createMember(signUpRequest));
+    }
 }
