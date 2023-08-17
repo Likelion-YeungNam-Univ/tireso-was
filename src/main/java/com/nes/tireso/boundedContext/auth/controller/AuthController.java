@@ -1,33 +1,105 @@
 package com.nes.tireso.boundedContext.auth.controller;
 
-import com.nes.tireso.boundedContext.auth.dto.SignInResponse;
-import com.nes.tireso.boundedContext.auth.dto.TokenRequest;
-import com.nes.tireso.boundedContext.auth.service.AuthService;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.nes.tireso.base.jwt.JwtProvider;
+import com.nes.tireso.boundedContext.auth.dto.TokenDto;
+import com.nes.tireso.boundedContext.auth.service.AuthService;
+import com.nes.tireso.boundedContext.auth.service.GoogleService;
+import com.nes.tireso.boundedContext.auth.service.KakaoService;
+import com.nes.tireso.boundedContext.auth.service.MemberService;
+import com.nes.tireso.boundedContext.auth.service.NaverService;
+import com.nes.tireso.boundedContext.auth.service.RefreshTokenService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Auth", description = "사용자 인증 관련 API")
 public class AuthController {
-    private final AuthService authService;
+	private final MemberService memberService;
+	private final AuthService authService;
+	private final RefreshTokenService refreshTokenService;
+	private final JwtProvider jwtProvider;
+	private final NaverService naverService;
+	private final KakaoService kakaoService;
+	private final GoogleService googleService;
 
-    @GetMapping("/login/oauth2/code/{registrationId}")
-    public ResponseEntity<SignInResponse> redirect(
-            @PathVariable("registrationId") String registrationId
-            , @RequestParam("code") String code
-            , @RequestParam("state") String state) {
-        return ResponseEntity.ok(
-                authService.redirect(
-                        TokenRequest.builder()
-                                .registrationId(registrationId)
-                                .code(code)
-                                .state(state)
-                                .build()));
-    }
+	@PostMapping("/refresh")
+	@Operation(summary = "Refresh Token을 이용한 New RefreshToken, New Access Token 발급 메서드", description = "Refresh Token을 이용하여 새로운 Refresh Token, Access Token을 발급 받기 위한 메서드입니다.")
+	public ResponseEntity<TokenDto> reissueAccessToken(@RequestHeader("Authorization") String refreshToken) throws Exception {
+		String newAccessToken = refreshTokenService.createNewAccessTokenByValidateRefreshToken(refreshToken);
+		String newRefreshToken = refreshTokenService.createNewRefreshTokenByValidateRefreshToken(refreshToken);
 
-    @PostMapping("/auth/token")
-    public ResponseEntity<SignInResponse> refreshToken(@RequestBody TokenRequest tokenRequest) {
-        return ResponseEntity.ok(authService.refreshToken(tokenRequest));
-    }
+		TokenDto tokenDto = TokenDto.builder()
+				.accessToken(newAccessToken)
+				.refreshToken(newRefreshToken)
+				.build();
+
+		refreshToken = refreshToken.substring(7);
+		refreshTokenService.storeRefreshToken(tokenDto, jwtProvider.getUsername(refreshToken));
+
+		return ResponseEntity.ok(tokenDto);
+	}
+
+	@GetMapping("/sign-in/naver")
+	@Operation(summary = "네이버 로그인 메서드", description = "네이버 로그인을 하기 위한 메서드입니다.")
+	public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.sendRedirect(naverService.getAuthorizationUrl());
+	}
+
+	// @GetMapping("/sign-in/naver/callback")
+	// public ResponseEntity<> naverCallback(@RequestParam String code, @RequestParam String state) throws IOException {
+	//
+	// }
+
+	@GetMapping("/sign-in/kakao")
+	@Operation(summary = "카카오 로그인 메서드", description = "카카오 로그인을 하기 위한 메서드입니다.")
+	public void kakaoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.sendRedirect(kakaoService.getAuthorizationUrl());
+	}
+
+	// @GetMapping("/sign-in/kakao/callback")
+	// public ResponseEntity<> kakaoCallback(@RequestParam String code) throws IOException {
+	//
+	// }
+
+	@GetMapping("/sign-in/google")
+	@Operation(summary = "구글 로그인 콜백 메서드", description = "구글 로그인 후 리다이렉트 되어 인가 코드를 출력하는 메서드입니다.")
+	public void googleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		response.sendRedirect(googleService.getAuthorizationUrl());
+	}
+
+	// @GetMapping("/sign-in/google/callback")
+	// public ResponseEntity<Message> signIn(@RequestParam String code) throws IOException {
+	//
+	// }
+
+	// @PostMapping("/sign-out")
+	// @Operation(summary = "로그아웃 메서드", description = "사용자가 로그아웃을 하기 위한 메서드입니다.")
+	// public ResponseEntity<> signOut(HttpServletRequest request) {
+	// 	String username = jwtProvider.getUsername(jwtProvider.resolveToken(request).substring(7));
+	// 	authService.signOut(username);
+	// 	return new ResponseEntity<Message>(
+	// 			Message.builder()
+	// 					.status(StatusEnum.OK)
+	// 					.message("로그아웃 성공!")
+	// 					.data(null)
+	// 					.build(),
+	// 			new HttpJsonHeaders(),
+	// 			HttpStatus.OK
+	// 	);
+	// }
 }

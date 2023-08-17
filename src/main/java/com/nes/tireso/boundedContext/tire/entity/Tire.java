@@ -3,14 +3,13 @@ package com.nes.tireso.boundedContext.tire.entity;
 import com.nes.tireso.base.baseEntity.BaseEntity;
 import com.nes.tireso.boundedContext.brand.entity.Brand;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
