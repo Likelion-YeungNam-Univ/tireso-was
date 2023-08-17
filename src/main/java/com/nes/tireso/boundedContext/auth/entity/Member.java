@@ -1,9 +1,13 @@
 package com.nes.tireso.boundedContext.auth.entity;
 
+import java.util.List;
+
 import com.nes.tireso.base.baseEntity.BaseEntity;
+import com.nes.tireso.boundedContext.love.entity.Love;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +33,9 @@ public class Member extends BaseEntity {
 	private String oauthType;
 	private String width;
 	private String ratio;
+
+	@OneToMany(mappedBy = "love")
+	private List<Love> love;
 
 	@Builder
 	public Member(String name, String email, String profileImageUrl, String username, String password, String carType, String oauthType, String width,

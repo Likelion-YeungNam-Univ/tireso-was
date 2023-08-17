@@ -29,14 +29,15 @@ public class SecurityConfig {
 		httpSecurity.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(authorizeHttpRequests ->
 						authorizeHttpRequests.requestMatchers(
-										"/swagger-resources/**",
-										"/swagger-ui/**",
-										"/v3/api-docs/**",
-										"/webjars/**",
-										"/error",
-										"/auth/**",
-										"/auth/**/**",
-										"/tire"
+										// "/swagger-resources/**",
+										// "/swagger-ui/**",
+										// "/v3/api-docs/**",
+										// "/webjars/**",
+										// "/error",
+										// "/auth/**",
+										// "/auth/**/**",
+										// "/tire"
+										"/**"
 								).permitAll()
 								.anyRequest().authenticated())
 				.exceptionHandling(exceptionHandling -> exceptionHandling

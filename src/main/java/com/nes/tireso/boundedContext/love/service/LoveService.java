@@ -22,17 +22,23 @@ public class LoveService {
 	// 	return loveRepository.existsByMemberAndTire(memberId, tireId);
 	// }
 
-	public void setLove(Long memberId, Long tireId) {
+	public boolean save(Long memberId, Long tireId) {
 		Member member = memberRepository.findById(memberId)
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
 		Tire tire = tireRepository.findById(tireId)
 				.orElseThrow(() -> new IllegalArgumentException("존재하지 않는 타이어입니다."));
 
-		Love love = Love.builder()
-				.member(member)
-				.tire(tire)
-				.build();
+		Love love = loveRepository.findByMemberAndTire(member, tire);
 
-		loveRepository.save(love);
+		if (love == null) {
+			loveRepository.save(Love.builder()
+					.member(member)
+					.tire(tire)
+					.build());
+			return true;
+		} else {
+			loveRepository.deleteById(love.getId());
+			return false;
+		}
 	}
 }

@@ -7,11 +7,15 @@ import com.nes.tireso.boundedContext.tire.entity.Tire;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Love extends BaseEntity {
-
 	@ManyToOne
 	@JoinColumn(name = "member_id")
 	private Member member;
