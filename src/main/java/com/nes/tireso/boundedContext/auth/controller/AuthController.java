@@ -4,13 +4,16 @@ import java.io.IOException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
 import com.nes.tireso.boundedContext.auth.dto.TokenDto;
+import com.nes.tireso.boundedContext.auth.dto.UserInfoDto;
 import com.nes.tireso.boundedContext.auth.entity.Member;
 import com.nes.tireso.boundedContext.auth.entity.UserInfo;
 import com.nes.tireso.boundedContext.auth.service.GoogleService;
@@ -106,5 +109,11 @@ public class AuthController {
 	@Operation(summary = "로그인 여부 확인 메서드", description = "사용자가 로그인 되어있는지 확인하는 메서드입니다.")
 	public ResponseEntity<Boolean> isSignIn() {
 		return ResponseEntity.ok(userInfo.getUserId() != null);
+	}
+
+	@PatchMapping("/user-info")
+	@Operation(summary = "사용자 정보 저장 메서드", description = "사용자 정보를 저장하는 메서드입니다.")
+	public ResponseEntity<UserInfoDto> update(@RequestBody UserInfoDto userInfoDto) {
+		return ResponseEntity.ok(memberService.update(userInfo.getUserId(), userInfoDto));
 	}
 }

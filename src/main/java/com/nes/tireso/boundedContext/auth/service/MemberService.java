@@ -4,6 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
+import com.nes.tireso.boundedContext.auth.dto.UserInfoDto;
 import com.nes.tireso.boundedContext.auth.entity.Member;
 import com.nes.tireso.boundedContext.auth.repository.MemberRepository;
 
@@ -38,5 +39,23 @@ public class MemberService {
 			return false;
 		}
 		return true;
+	}
+
+	public UserInfoDto update(Long memberId, UserInfoDto userInfoDto) {
+		Member member = memberRepository.findById(memberId).get();
+
+		Member.builder()
+				.carName(userInfoDto.getCarName())
+				.carNumber(userInfoDto.getCarNumber())
+				.carBrand(userInfoDto.getCarBrand())
+				.carModel(userInfoDto.getCarModel())
+				.oilType(userInfoDto.getOilType())
+				.width(userInfoDto.getWidth())
+				.ratio(userInfoDto.getRatio())
+				.inch(userInfoDto.getInch())
+				.build();
+
+		memberRepository.save(member);
+		return userInfoDto;
 	}
 }

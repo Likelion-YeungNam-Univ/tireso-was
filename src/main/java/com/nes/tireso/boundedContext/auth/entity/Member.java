@@ -28,27 +28,39 @@ public class Member extends BaseEntity {
 
 	private String username;
 	private String password;
-
+	private String carName;
+	private String carNumber;
+	private String carBrand;
+	private String carModel;
+	private String oilType;
 	private String carType;
 	private String oauthType;
 	private String width;
 	private String ratio;
+	private String inch;
 
 	@OneToMany(mappedBy = "love")
 	private List<Love> love;
 
 	@Builder
-	public Member(String name, String email, String profileImageUrl, String username, String password, String carType, String oauthType, String width,
-			String ratio) {
+	public Member(String name, String email, String profileImageUrl, String username, String password, String carName,
+			String carNumber, String carBrand, String carModel, String oilType, String carType, String oauthType,
+			String width, String ratio, String inch) {
 		this.name = name;
 		this.email = email;
 		this.profileImageUrl = profileImageUrl;
 		this.username = username;
 		this.password = password;
+		this.carName = carName;
+		this.carNumber = carNumber;
+		this.carBrand = carBrand;
+		this.carModel = carModel;
+		this.oilType = oilType;
 		this.carType = carType;
 		this.oauthType = oauthType;
 		this.width = width;
 		this.ratio = ratio;
+		this.inch = inch;
 
 		if (profileImageUrl == null || profileImageUrl.isEmpty()) {
 			this.profileImageUrl = "https://kr.object.ncloudstorage.com/tireso/member/default_profile.png";
@@ -56,4 +68,5 @@ public class Member extends BaseEntity {
 			this.profileImageUrl = profileImageUrl;
 		}
 	}
+
 }
