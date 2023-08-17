@@ -58,4 +58,8 @@ public class MemberService {
 		memberRepository.save(member);
 		return userInfoDto;
 	}
+
+	public Member read(Long memberId) {
+		return memberRepository.findById(memberId).get();
+	}
 }

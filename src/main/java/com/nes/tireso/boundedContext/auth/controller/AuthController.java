@@ -116,4 +116,10 @@ public class AuthController {
 	public ResponseEntity<UserInfoDto> update(@RequestBody UserInfoDto userInfoDto) {
 		return ResponseEntity.ok(memberService.update(userInfo.getUserId(), userInfoDto));
 	}
+
+	@GetMapping("/user-info")
+	@Operation(summary = "사용자 정보 조회 메서드", description = "사용자 정보를 조회하는 메서드입니다.")
+	public ResponseEntity<Member> read() {
+		return ResponseEntity.ok(memberService.read(userInfo.getUserId()));
+	}
 }
