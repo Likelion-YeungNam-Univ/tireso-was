@@ -47,4 +47,8 @@ public class TireService {
 
 		return tireList;
 	}
+
+	public Tire read(String tireId) {
+		return tireRepository.findById(Long.parseLong(tireId)).get();
+	}
 }

@@ -5,8 +5,11 @@ import java.util.List;
 import com.nes.tireso.base.baseEntity.BaseEntity;
 import com.nes.tireso.boundedContext.love.entity.Love;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,7 +42,8 @@ public class Member extends BaseEntity {
 	private String ratio;
 	private String inch;
 
-	@OneToMany(mappedBy = "love")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "love_id")
 	private List<Love> love;
 
 	@Builder

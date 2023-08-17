@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,5 +36,11 @@ public class TireController {
 
 		// 정렬: 등록순, 인기순, 낮은가격순, 높은가격순
 		return new ResponseEntity<>(tireService.list(sort, brandId, carType, season, type), HttpStatus.OK);
+	}
+
+	@GetMapping("/{tireId}")
+	@Operation(summary = "타이어 상세 조회 API", description = "타이어 상세 정보를 반환합니다.")
+	public ResponseEntity<Tire> read(@PathVariable String tireId) {
+		return new ResponseEntity<>(tireService.read(tireId), HttpStatus.OK);
 	}
 }
