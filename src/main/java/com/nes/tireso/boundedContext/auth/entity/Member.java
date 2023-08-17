@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
 
 	@Column(nullable = false)
-	private String nickname;
+	private String name;
 
 	@Column(nullable = false)
 	private String email;
@@ -26,20 +26,20 @@ public class Member extends BaseEntity {
 	private String password;
 
 	private String carType;
-	private String type;
+	private String oauthType;
 	private String width;
 	private String ratio;
 
 	@Builder
-	public Member(String nickname, String email, String profileImageUrl, String username, String password, String carType, String type, String width,
+	public Member(String name, String email, String profileImageUrl, String username, String password, String carType, String oauthType, String width,
 			String ratio) {
-		this.nickname = nickname;
+		this.name = name;
 		this.email = email;
 		this.profileImageUrl = profileImageUrl;
 		this.username = username;
 		this.password = password;
 		this.carType = carType;
-		this.type = type;
+		this.oauthType = oauthType;
 		this.width = width;
 		this.ratio = ratio;
 

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.nes.tireso.base.jwt.JwtProvider;
-import com.nes.tireso.boundedContext.auth.dto.GoogleDto;
+import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
 import com.nes.tireso.boundedContext.auth.dto.TokenDto;
 import com.nes.tireso.boundedContext.auth.repository.MemberRepository;
 import com.nimbusds.jose.shaded.gson.JsonElement;
@@ -112,9 +112,7 @@ public class GoogleService {
 		return tokenDto;
 	}
 
-	public GoogleDto getUserInfo(TokenDto tokenDto) throws Exception {
-		GoogleDto googleDto = null;
-
+	public OAuthInfoDto getUserInfo(TokenDto tokenDto) throws Exception {
 		try {
 			URL url = new URL(userInfoUri);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -140,16 +138,19 @@ public class GoogleService {
 			String id = element.getAsJsonObject().get("id").getAsString();
 			String nickname = element.getAsJsonObject().get("name").getAsString();
 			String email = element.getAsJsonObject().get("email").getAsString();
+			String picture = element.getAsJsonObject().get("picture").getAsString();
 
 			br.close();
-			googleDto = GoogleDto.builder()
-					.id(id)
-					.nickname(nickname)
-					.username(email)
+
+			return OAuthInfoDto.builder()
+					.username(id)
+					.name(nickname)
+					.email(email)
+					.profileImageUrl(picture)
+					.oauthType("google")
 					.build();
 		} catch (Exception e) {
 			throw new Exception("토큰 발급 실패");
 		}
-		return googleDto;
 	}
 }

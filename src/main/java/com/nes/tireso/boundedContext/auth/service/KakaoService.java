@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.nes.tireso.base.jwt.JwtProvider;
-import com.nes.tireso.boundedContext.auth.dto.KakaoDto;
+import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
 import com.nes.tireso.boundedContext.auth.dto.TokenDto;
 import com.nes.tireso.boundedContext.auth.repository.MemberRepository;
 import com.nimbusds.jose.shaded.gson.JsonElement;
@@ -106,9 +106,7 @@ public class KakaoService {
 		return tokenDto;
 	}
 
-	public KakaoDto getUserInfo(TokenDto tokenDto) throws Exception {
-		KakaoDto kakaoDto = null;
-
+	public OAuthInfoDto getUserInfo(TokenDto tokenDto) throws Exception {
 		try {
 			URL url = new URL(userInfoUri);
 
@@ -139,15 +137,24 @@ public class KakaoService {
 			if (hasEmail) {
 				email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
 			}
+			String profileImage = element.getAsJsonObject()
+					.get("kakao_account")
+					.getAsJsonObject()
+					.get("profile")
+					.getAsJsonObject()
+					.get("thumbnail_image_url")
+					.getAsString();
+
 			br.close();
-			kakaoDto = KakaoDto.builder()
-					.id(id)
-					.nickname(nickname)
-					.username(email)
+			return OAuthInfoDto.builder()
+					.username(id)
+					.name(nickname)
+					.email(email)
+					.profileImageUrl(profileImage)
+					.oauthType("kakao")
 					.build();
 		} catch (Exception e) {
 			throw new Exception("토큰 발급 실패");
 		}
-		return kakaoDto;
 	}
 }

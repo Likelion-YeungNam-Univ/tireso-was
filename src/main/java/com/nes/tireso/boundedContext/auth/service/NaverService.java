@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.nes.tireso.base.jwt.JwtProvider;
-import com.nes.tireso.boundedContext.auth.dto.NaverDto;
+import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
 import com.nes.tireso.boundedContext.auth.dto.TokenDto;
 import com.nes.tireso.boundedContext.auth.repository.MemberRepository;
 import com.nimbusds.jose.shaded.gson.JsonElement;
@@ -94,7 +94,7 @@ public class NaverService {
 				.build();
 	}
 
-	public NaverDto getUserInfo(TokenDto token) throws IOException {
+	public OAuthInfoDto getUserInfo(TokenDto token) throws IOException {
 		String accessToken = token.getAccessToken();
 
 		URL url = new URL(userInfoUri);
@@ -121,10 +121,12 @@ public class NaverService {
 
 		JsonElement element = parser.parse(response.toString());
 
-		return NaverDto.builder()
-				.id(element.getAsJsonObject().get("response").getAsJsonObject().get("id").getAsString())
+		return OAuthInfoDto.builder()
+				.username(element.getAsJsonObject().get("response").getAsJsonObject().get("id").getAsString())
 				.email(element.getAsJsonObject().get("response").getAsJsonObject().get("email").getAsString())
-				.nickname(element.getAsJsonObject().get("response").getAsJsonObject().get("nickname").getAsString())
+				.name(element.getAsJsonObject().get("response").getAsJsonObject().get("name").getAsString())
+				.profileImageUrl(element.getAsJsonObject().get("response").getAsJsonObject().get("profile_image").getAsString())
+				.oauthType("naver")
 				.build();
 	}
 }
