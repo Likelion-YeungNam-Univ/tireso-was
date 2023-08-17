@@ -3,7 +3,6 @@ package com.nes.tireso.boundedContext.love.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nes.tireso.base.jwt.JwtProvider;
 import com.nes.tireso.boundedContext.love.service.LoveService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Tag(name = "Love", description = "좋아요 관련 API")
 public class LoveController {
-	private final JwtProvider jwtProvider;
 	private LoveService loveService;
 
 	// @GetMapping

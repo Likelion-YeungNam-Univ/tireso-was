@@ -12,7 +12,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.nes.tireso.base.jwt.JwtProvider;
 import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
 import com.nes.tireso.boundedContext.auth.dto.TokenDto;
 import com.nes.tireso.boundedContext.auth.repository.MemberRepository;
@@ -24,8 +23,6 @@ import com.nimbusds.jose.shaded.gson.JsonParser;
 public class GoogleService {
 	private final MemberService memberService;
 	private final MemberRepository memberRepository;
-	private final RefreshTokenService refreshTokenService;
-	private final JwtProvider jwtProvider;
 	private final String clientId;
 	private final String redirectUri;
 	private final String clientSecret;
@@ -35,15 +32,13 @@ public class GoogleService {
 	private final String userInfoUri;
 	private final String authorizationUri;
 
-	public GoogleService(MemberService memberService, MemberRepository memberRepository, RefreshTokenService refreshTokenService, JwtProvider jwtProvider,
+	public GoogleService(MemberService memberService, MemberRepository memberRepository,
 			@Value("${google.client_id}") String clientId, @Value("${google.client_secret}") String clientSecret,
 			@Value("${google.redirect_uri}") String redirectUri,
 			@Value("${google.token_uri}") String tokenUri, @Value("${google.user_info_uri}") String userInfoUri,
 			@Value("${google.authorization_uri}") String authorizationUri) {
 		this.memberService = memberService;
 		this.memberRepository = memberRepository;
-		this.refreshTokenService = refreshTokenService;
-		this.jwtProvider = jwtProvider;
 		this.clientId = clientId;
 		this.redirectUri = redirectUri;
 		this.clientSecret = clientSecret;

@@ -12,7 +12,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.nes.tireso.base.jwt.JwtProvider;
 import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
 import com.nes.tireso.boundedContext.auth.dto.TokenDto;
 import com.nes.tireso.boundedContext.auth.repository.MemberRepository;
@@ -24,22 +23,18 @@ import com.nimbusds.jose.shaded.gson.JsonParser;
 public class KakaoService {
 	private final MemberService memberService;
 	private final MemberRepository memberRepository;
-	private final RefreshTokenService refreshTokenService;
 	private final String clientId;
 	private final String redirectUri;
-	private final JwtProvider jwtProvider;
 	private final String authorizationUri;
 	private final String tokenUri;
 	private final String userInfoUri;
 
-	public KakaoService(MemberService memberService, MemberRepository memberRepository, RefreshTokenService refreshTokenService,
-			JwtProvider jwtProvider, @Value("${kakao.client_id}") String clientId, @Value("${kakao.redirect_uri}") String redirectUri,
+	public KakaoService(MemberService memberService, MemberRepository memberRepository, @Value("${kakao.client_id}") String clientId,
+			@Value("${kakao.redirect_uri}") String redirectUri,
 			@Value("${kakao.authorization_uri}") String authorizationUri, @Value("${kakao.user_info_uri}") String userInfoUri,
 			@Value("${kakao.token_uri}") String tokenUri) {
 		this.memberService = memberService;
 		this.memberRepository = memberRepository;
-		this.refreshTokenService = refreshTokenService;
-		this.jwtProvider = jwtProvider;
 		this.clientId = clientId;
 		this.redirectUri = redirectUri;
 		this.authorizationUri = authorizationUri;

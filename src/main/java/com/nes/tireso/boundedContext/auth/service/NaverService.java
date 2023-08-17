@@ -11,7 +11,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.nes.tireso.base.jwt.JwtProvider;
 import com.nes.tireso.boundedContext.auth.dto.OAuthInfoDto;
 import com.nes.tireso.boundedContext.auth.dto.TokenDto;
 import com.nes.tireso.boundedContext.auth.repository.MemberRepository;
@@ -27,8 +26,6 @@ public class NaverService {
 	private final MemberService memberService;
 	private final MemberRepository memberRepository;
 	private final JsonParser parser = new JsonParser();
-	private final JwtProvider jwtProvider;
-	private final RefreshTokenService refreshTokenService;
 	@Value("${naver.client-id}")
 	private String clientId;
 	@Value("${naver.state}")
