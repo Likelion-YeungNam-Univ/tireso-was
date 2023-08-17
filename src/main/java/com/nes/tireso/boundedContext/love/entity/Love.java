@@ -7,6 +7,7 @@ import com.nes.tireso.boundedContext.tire.entity.Tire;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.Builder;
 
 @Entity
 public class Love extends BaseEntity {
@@ -18,4 +19,10 @@ public class Love extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "tire_id")
 	private Tire tire;
+
+	@Builder
+	public Love(Member member, Tire tire) {
+		this.member = member;
+		this.tire = tire;
+	}
 }

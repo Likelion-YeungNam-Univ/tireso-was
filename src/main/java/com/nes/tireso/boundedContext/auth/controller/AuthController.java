@@ -1,7 +1,10 @@
 package com.nes.tireso.boundedContext.auth.controller;
 
 import java.io.IOException;
+import java.net.URI;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +26,6 @@ import com.nes.tireso.boundedContext.auth.service.RefreshTokenService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -57,51 +59,59 @@ public class AuthController {
 		return ResponseEntity.ok(tokenDto);
 	}
 
-	@GetMapping("/sign-in/naver")
-	@Operation(summary = "네이버 로그인 메서드", description = "네이버 로그인을 하기 위한 메서드입니다.")
-	public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect(naverService.getAuthorizationUrl());
-	}
+	// @GetMapping("/sign-in/naver")
+	// @Operation(summary = "네이버 로그인 메서드", description = "네이버 로그인을 하기 위한 메서드입니다.")
+	// public void naverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	// 	response.sendRedirect(naverService.getAuthorizationUrl());
+	// }
+
+	// @GetMapping("/sign-in/naver")
+	// @Operation(summary = "네이버 로그인 메서드", description = "네이버 로그인을 하기 위한 메서드입니다.")
+	// public ResponseEntity<String> naverLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	// 	return ResponseEntity.ok(naverService.getAuthorizationUrl());
+	// }
 
 	@GetMapping("/sign-in/naver/callback")
-	@Operation(summary = "네이버 로그인 콜백 메서드", description = "네이버 로그인을 성공하면  메서드입니다.")
-	public ResponseEntity<TokenDto> naverCallback(@RequestParam String code, @RequestParam String state) throws IOException {
+	@Operation(summary = "네이버 로그인 콜백 메서드", description = "네이버 로그인을 성공하면 실행되는 메서드입니다.")
+	public ResponseEntity<TokenDto> naverCallback(@RequestParam String code, @RequestParam String state, HttpServletResponse response) throws IOException {
 		TokenDto token = naverService.getNaverToken("token", code);
 		OAuthInfoDto oauthInfoDto = naverService.getUserInfo(token);
 		Member member = memberService.create(oauthInfoDto);
 		TokenDto tokenDto = authService.issueToken(member);
-		return ResponseEntity.ok(tokenDto);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(URI.create("http://localhost:3000/main"));
+		return new ResponseEntity<>(tokenDto, headers, HttpStatus.MOVED_PERMANENTLY);
 	}
 
-	@GetMapping("/sign-in/kakao")
-	@Operation(summary = "카카오 로그인 메서드", description = "카카오 로그인을 하기 위한 메서드입니다.")
-	public void kakaoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect(kakaoService.getAuthorizationUrl());
-	}
+	// @GetMapping("/sign-in/kakao")
+	// @Operation(summary = "카카오 로그인 메서드", description = "카카오 로그인을 하기 위한 메서드입니다.")
+	// public void kakaoLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	// 	response.sendRedirect(kakaoService.getAuthorizationUrl());
+	// }
 
-	@GetMapping("/sign-in/kakao/callback")
-	public ResponseEntity<TokenDto> kakaoCallback(@RequestParam String code) throws Exception {
-		TokenDto token = kakaoService.getToken(code);
-		OAuthInfoDto oauthInfoDto = kakaoService.getUserInfo(token);
-		Member member = memberService.create(oauthInfoDto);
-		TokenDto tokenDto = authService.issueToken(member);
-		return ResponseEntity.ok(tokenDto);
-	}
+	// @GetMapping("/sign-in/kakao/callback")
+	// public ResponseEntity<TokenDto> kakaoCallback(@RequestParam String code) throws Exception {
+	// 	TokenDto token = kakaoService.getToken(code);
+	// 	OAuthInfoDto oauthInfoDto = kakaoService.getUserInfo(token);
+	// 	Member member = memberService.create(oauthInfoDto);
+	// 	TokenDto tokenDto = authService.issueToken(member);
+	// 	return ResponseEntity.ok(tokenDto);
+	// }
 
-	@GetMapping("/sign-in/google")
-	@Operation(summary = "구글 로그인 콜백 메서드", description = "구글 로그인 후 리다이렉트 되어 인가 코드를 출력하는 메서드입니다.")
-	public void googleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		response.sendRedirect(googleService.getAuthorizationUrl());
-	}
+	// @GetMapping("/sign-in/google")
+	// @Operation(summary = "구글 로그인 콜백 메서드", description = "구글 로그인 후 리다이렉트 되어 인가 코드를 출력하는 메서드입니다.")
+	// public void googleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	// 	response.sendRedirect(googleService.getAuthorizationUrl());
+	// }
 
-	@GetMapping("/sign-in/google/callback")
-	public ResponseEntity<TokenDto> signIn(@RequestParam String code) throws Exception {
-		TokenDto token = googleService.getToken(code);
-		OAuthInfoDto oauthInfoDto = googleService.getUserInfo(token);
-		Member member = memberService.create(oauthInfoDto);
-		TokenDto tokenDto = authService.issueToken(member);
-		return ResponseEntity.ok(tokenDto);
-	}
+	// @GetMapping("/sign-in/google/callback")
+	// public ResponseEntity<TokenDto> signIn(@RequestParam String code) throws Exception {
+	// 	TokenDto token = googleService.getToken(code);
+	// 	OAuthInfoDto oauthInfoDto = googleService.getUserInfo(token);
+	// 	Member member = memberService.create(oauthInfoDto);
+	// 	TokenDto tokenDto = authService.issueToken(member);
+	// 	return ResponseEntity.ok(tokenDto);
+	// }
 
 	// @PostMapping("/sign-out")
 	// @Operation(summary = "로그아웃 메서드", description = "사용자가 로그아웃을 하기 위한 메서드입니다.")
