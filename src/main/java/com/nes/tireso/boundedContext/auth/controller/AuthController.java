@@ -1,10 +1,7 @@
 package com.nes.tireso.boundedContext.auth.controller;
 
 import java.io.IOException;
-import java.net.URI;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -78,9 +75,7 @@ public class AuthController {
 		OAuthInfoDto oauthInfoDto = naverService.getUserInfo(token);
 		Member member = memberService.create(oauthInfoDto);
 		TokenDto tokenDto = authService.issueToken(member);
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(URI.create("http://localhost:3000/main"));
-		return new ResponseEntity<>(tokenDto, headers, HttpStatus.MOVED_PERMANENTLY);
+		return ResponseEntity.ok(tokenDto);
 	}
 
 	// @GetMapping("/sign-in/kakao")
