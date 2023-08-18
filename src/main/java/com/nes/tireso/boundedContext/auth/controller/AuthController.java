@@ -2,9 +2,11 @@ package com.nes.tireso.boundedContext.auth.controller;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,9 @@ public class AuthController {
 	private final KakaoService kakaoService;
 	private final GoogleService googleService;
 
+	@Value("main_page")
+	private String mainPageUrl;
+
 	@Resource
 	private UserInfo userInfo;
 
@@ -57,7 +62,7 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
-		response.sendRedirect("http://localhost:3000/main");
+		response.sendRedirect(mainPageUrl);
 	}
 
 	@GetMapping("/sign-in/kakao")
@@ -75,7 +80,7 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
-		response.sendRedirect("http://localhost:3000/main");
+		response.sendRedirect(mainPageUrl);
 	}
 
 	@GetMapping("/sign-in/google")
@@ -94,7 +99,7 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
-		response.sendRedirect("http://localhost:3000/main");
+		response.sendRedirect(mainPageUrl);
 	}
 
 	@PostMapping("/sign-out")
@@ -107,19 +112,24 @@ public class AuthController {
 
 	@GetMapping
 	@Operation(summary = "로그인 여부 확인 메서드", description = "사용자가 로그인 되어있는지 확인하는 메서드입니다.")
-	public ResponseEntity<Boolean> isSignIn() {
-		return ResponseEntity.ok(userInfo.getUserId() != null);
+	public ResponseEntity<Long> isSignIn() {
+		Long result = -1L;
+
+		if (userInfo.getUserId() != null) {
+			result = userInfo.getUserId();
+		}
+		return ResponseEntity.ok(result);
 	}
 
-	@PatchMapping("/user-info")
+	@PatchMapping("/user-info/{userId}")
 	@Operation(summary = "사용자 정보 저장 메서드", description = "사용자 정보를 저장하는 메서드입니다.")
-	public ResponseEntity<UserInfoDto> update(@RequestBody UserInfoDto userInfoDto) {
-		return ResponseEntity.ok(memberService.update(userInfo.getUserId(), userInfoDto));
+	public ResponseEntity<UserInfoDto> update(@RequestBody UserInfoDto userInfoDto, @PathVariable Long userId) {
+		return ResponseEntity.ok(memberService.update(userId, userInfoDto));
 	}
 
-	@GetMapping("/user-info")
+	@GetMapping("/user-info/{userId}")
 	@Operation(summary = "사용자 정보 조회 메서드", description = "사용자 정보를 조회하는 메서드입니다.")
-	public ResponseEntity<Member> read() {
-		return ResponseEntity.ok(memberService.read(userInfo.getUserId()));
+	public ResponseEntity<Member> read(@PathVariable Long userId) {
+		return ResponseEntity.ok(memberService.read(userId));
 	}
 }

@@ -17,9 +17,9 @@ public class MemberService {
 	private final PasswordEncoder passwordEncoder;
 
 	public Member create(OAuthInfoDto oAuthInfoDto) {
-		// if (isDuplicateEmail(oAuthInfoDto.getEmail())) {
-		// 	return memberRepository.findByUsername(oAuthInfoDto.getEmail());
-		// }
+		if (isDuplicateEmail(oAuthInfoDto.getEmail())) {
+			return memberRepository.findByUsername(oAuthInfoDto.getEmail());
+		}
 
 		Member member = Member.builder()
 				.username(oAuthInfoDto.getUsername())
