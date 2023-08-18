@@ -18,7 +18,7 @@ public class MemberService {
 
 	public Member create(OAuthInfoDto oAuthInfoDto) {
 		if (isDuplicateEmail(oAuthInfoDto.getEmail())) {
-			return memberRepository.findByUsername(oAuthInfoDto.getEmail());
+			return memberRepository.findByEmail(oAuthInfoDto.getEmail());
 		}
 
 		Member member = Member.builder()
