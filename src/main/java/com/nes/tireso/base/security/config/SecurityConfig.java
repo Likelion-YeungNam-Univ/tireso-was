@@ -37,7 +37,7 @@ public class SecurityConfig {
 										// "/auth/**",
 										// "/auth/**/**",
 										// "/tire"
-										"/**"
+										"/**", "/**/**"
 								).permitAll()
 								.anyRequest().authenticated())
 				.exceptionHandling(exceptionHandling -> exceptionHandling
