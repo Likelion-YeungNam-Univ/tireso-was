@@ -39,8 +39,6 @@ public class AuthController {
 	private final KakaoService kakaoService;
 	private final GoogleService googleService;
 
-	private final String mainPageUrl = "http://localhost:3000/main";
-
 	@Resource
 	private UserInfo userInfo;
 
@@ -60,7 +58,7 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
-		response.sendRedirect(mainPageUrl);
+		response.sendRedirect("http://localhost:3000/main");
 	}
 
 	@GetMapping("/sign-in/kakao")
@@ -78,7 +76,7 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
-		response.sendRedirect(mainPageUrl);
+		response.sendRedirect("http://localhost:3000/main");
 	}
 
 	@GetMapping("/sign-in/google")
@@ -97,7 +95,7 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
-		response.sendRedirect(mainPageUrl);
+		response.sendRedirect("http://localhost:3000/main");
 	}
 
 	@PostMapping("/sign-out")
