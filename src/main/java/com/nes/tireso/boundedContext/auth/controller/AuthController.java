@@ -121,7 +121,11 @@ public class AuthController {
 	@GetMapping
 	@Operation(summary = "로그인 여부 확인 메서드", description = "사용자가 로그인 되어있는지 확인하는 메서드입니다.")
 	public ResponseEntity<Long> isSignIn() {
-		return ResponseEntity.ok(userMap.get(userInfo));
+		if (!userMap.containsKey(userInfo)) {
+			return ResponseEntity.ok(-1L);
+		} else {
+			return ResponseEntity.ok(userMap.get(userInfo));
+		}
 	}
 
 	@PatchMapping("/user-info/{userId}")
