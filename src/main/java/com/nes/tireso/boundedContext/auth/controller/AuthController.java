@@ -63,7 +63,7 @@ public class AuthController {
 
 		userMap.put(userInfo, userInfo.getUserId());
 
-		response.sendRedirect("http://localhost:3000/main");
+		response.sendRedirect("http://www.tireso.co.kr:3000/main");
 	}
 
 	@GetMapping("/sign-in/kakao")
@@ -83,7 +83,7 @@ public class AuthController {
 
 		userMap.put(userInfo, userInfo.getUserId());
 
-		response.sendRedirect("http://localhost:3000/main");
+		response.sendRedirect("http://www.tireso.co.kr:3000/main");
 	}
 
 	@GetMapping("/sign-in/google")
@@ -104,7 +104,7 @@ public class AuthController {
 
 		userMap.put(userInfo, userInfo.getUserId());
 
-		response.sendRedirect("http://localhost:3000/main");
+		response.sendRedirect("http://www.tireso.co.kr:3000/main");
 	}
 
 	@PostMapping("/sign-out")
