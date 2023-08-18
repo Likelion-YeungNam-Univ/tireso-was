@@ -27,6 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -57,6 +58,9 @@ public class AuthController {
 
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
+
+		HttpSession session = request.getSession();
+		session.setAttribute("user_id", userInfo.getUserId());
 
 		response.sendRedirect("http://localhost:3000/main");
 	}
@@ -103,6 +107,10 @@ public class AuthController {
 	public ResponseEntity<String> signOut(HttpServletRequest request) {
 		userInfo.setUserNm(null);
 		userInfo.setUserId(null);
+
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
 		return ResponseEntity.ok("로그아웃 되었습니다.");
 	}
 
@@ -125,7 +133,8 @@ public class AuthController {
 
 	@GetMapping("/user-info/{userId}")
 	@Operation(summary = "사용자 정보 조회 메서드", description = "사용자 정보를 조회하는 메서드입니다.")
-	public ResponseEntity<Member> read(@PathVariable Long userId) {
+	public ResponseEntity<Member> read(HttpSession session, @PathVariable Long userId) {
+		System.out.println(session.getAttribute("userInfo"));
 		return ResponseEntity.ok(memberService.read(userId));
 	}
 }
