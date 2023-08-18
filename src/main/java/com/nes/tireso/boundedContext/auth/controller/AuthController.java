@@ -1,6 +1,7 @@
 package com.nes.tireso.boundedContext.auth.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,7 @@ public class AuthController {
 	private final NaverService naverService;
 	private final KakaoService kakaoService;
 	private final GoogleService googleService;
+	private HashMap<UserInfo, Long> userMap = new HashMap<>();
 
 	@Resource
 	private UserInfo userInfo;
@@ -59,8 +61,7 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
-		HttpSession session = request.getSession();
-		session.setAttribute("user_id", userInfo.getUserId());
+		userMap.put(userInfo, userInfo.getUserId());
 
 		response.sendRedirect("http://localhost:3000/main");
 	}
@@ -79,6 +80,8 @@ public class AuthController {
 
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
+
+		userMap.put(userInfo, userInfo.getUserId());
 
 		response.sendRedirect("http://localhost:3000/main");
 	}
@@ -99,30 +102,26 @@ public class AuthController {
 		userInfo.setUserId(member.getId());
 		userInfo.setUserNm(member.getName());
 
+		userMap.put(userInfo, userInfo.getUserId());
+
 		response.sendRedirect("http://localhost:3000/main");
 	}
 
 	@PostMapping("/sign-out")
 	@Operation(summary = "로그아웃 메서드", description = "사용자가 로그아웃을 하기 위한 메서드입니다.")
 	public ResponseEntity<String> signOut(HttpServletRequest request) {
+		userMap.remove(userInfo);
+
 		userInfo.setUserNm(null);
 		userInfo.setUserId(null);
 
-		HttpSession session = request.getSession();
-		session.invalidate();
-		
 		return ResponseEntity.ok("로그아웃 되었습니다.");
 	}
 
 	@GetMapping
 	@Operation(summary = "로그인 여부 확인 메서드", description = "사용자가 로그인 되어있는지 확인하는 메서드입니다.")
 	public ResponseEntity<Long> isSignIn() {
-		Long result = -1L;
-
-		if (userInfo.getUserId() != null) {
-			result = userInfo.getUserId();
-		}
-		return ResponseEntity.ok(result);
+		return ResponseEntity.ok(userMap.get(userInfo));
 	}
 
 	@PatchMapping("/user-info/{userId}")
@@ -134,7 +133,6 @@ public class AuthController {
 	@GetMapping("/user-info/{userId}")
 	@Operation(summary = "사용자 정보 조회 메서드", description = "사용자 정보를 조회하는 메서드입니다.")
 	public ResponseEntity<Member> read(HttpSession session, @PathVariable Long userId) {
-		System.out.println(session.getAttribute("userInfo"));
 		return ResponseEntity.ok(memberService.read(userId));
 	}
 }
