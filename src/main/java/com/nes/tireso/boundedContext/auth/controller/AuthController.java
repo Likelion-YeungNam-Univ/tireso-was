@@ -40,7 +40,7 @@ public class AuthController {
 	private final KakaoService kakaoService;
 	private final GoogleService googleService;
 
-	@Value("main_page")
+	@Value("${main_page}")
 	private String mainPageUrl;
 
 	@Resource
