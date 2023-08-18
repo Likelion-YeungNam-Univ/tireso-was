@@ -2,7 +2,6 @@ package com.nes.tireso.boundedContext.auth.controller;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,8 +39,7 @@ public class AuthController {
 	private final KakaoService kakaoService;
 	private final GoogleService googleService;
 
-	@Value("${react.main_page}")
-	private String mainPageUrl;
+	private final String mainPageUrl = "http://localhost:3000/main";
 
 	@Resource
 	private UserInfo userInfo;
