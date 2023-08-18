@@ -17,7 +17,7 @@ public class MemberService {
 	private final PasswordEncoder passwordEncoder;
 
 	public Member create(OAuthInfoDto oAuthInfoDto) {
-		if (isDuplicateUsername(oAuthInfoDto.getUsername())) {
+		if (isDuplicateEmail(oAuthInfoDto.getUsername())) {
 			return memberRepository.findByUsername(oAuthInfoDto.getUsername());
 		}
 
@@ -34,8 +34,8 @@ public class MemberService {
 		return member;
 	}
 
-	public boolean isDuplicateUsername(String username) {
-		if (memberRepository.findByUsername(username) == null) {
+	public boolean isDuplicateEmail(String email) {
+		if (memberRepository.findByEmail(email) == null) {
 			return false;
 		}
 		return true;

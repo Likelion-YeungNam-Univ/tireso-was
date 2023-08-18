@@ -6,4 +6,6 @@ import com.nes.tireso.boundedContext.auth.entity.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 	Member findByUsername(String username);
+
+	Member findByEmail(String email);
 }
