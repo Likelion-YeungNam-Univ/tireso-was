@@ -18,7 +18,7 @@ public class MemberService {
 
 	public Member create(OAuthInfoDto oAuthInfoDto) {
 		if (isDuplicateEmail(oAuthInfoDto.getEmail())) {
-			return memberRepository.findByEmail(oAuthInfoDto.getEmail());
+			return memberRepository.findByUsername(oAuthInfoDto.getEmail());
 		}
 
 		Member member = Member.builder()
@@ -35,10 +35,7 @@ public class MemberService {
 	}
 
 	public boolean isDuplicateEmail(String email) {
-		if (memberRepository.findByEmail(email).equals(null)) {
-			return false;
-		}
-		return true;
+		return memberRepository.existsByEmail(email);
 	}
 
 	public UserInfoDto update(Long memberId, UserInfoDto userInfoDto) {
